@@ -1,110 +1,121 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
+var DB *gorm.DB
+
+func ConnectDatabase() {
+	database, err := gorm.Open("sqlite3", "test.db")
+
+	if err != nil {
+		panic("Failed to connect to database!")
+	} else {
+		fmt.Print("Database connected \n")
+	}
+
+	database.AutoMigrate(&product{})
+
+	DB = database
+}
+
 type product struct {
-	ID     string `json:"id"`
+	Id     string `json:"id"`
 	Name   string `json:"name"`
 	Price  int    `json:"price"`
 	Amount int    `json:"amount"`
 }
 
-var products = []product{
-	{ID: "1", Name: "kniha", Price: 200, Amount: 2},
-	{ID: "2", Name: "rohlik", Price: 3, Amount: 5},
-	{ID: "3", Name: "vejce", Price: 10, Amount: 6},
+type CreateProductInput struct {
+	Id     string `json:"id"`
+	Name   string `json:"name" binding:"required"`
+	Price  int    `json:"price" binding:"required"`
+	Amount int    `json:"amount" binding:"required"`
 }
 
-func getProducts(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, products)
+type UpdateProductInput struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Price  int    `json:"price"`
+	Amount int    `json:"amount"`
 }
 
-// bere na vstupu .json file -> v repozitáři předem vytvořen .json file "body.json"
-// funkční curl: curl localhost:8080/products --include --header "Content-Type: application/json" -d @body.json --request "POST"
-func createProduct(c *gin.Context) {
+func CreateProduct(c *gin.Context) {
+	// Validate input
+	var input CreateProductInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Create product
+	product := product{Id: input.Id, Name: input.Name, Price: input.Price, Amount: input.Amount}
+	DB.Create(&product)
+
+	c.JSON(http.StatusOK, gin.H{"data": product})
+}
+
+func UpdateProduct(c *gin.Context) {
+	// Get model if exist
 	var newProduct product
-	if err := c.BindJSON(&newProduct); err != nil {
+	if err := DB.Where("id = ?", c.Param("id")).First(&newProduct).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
-	products = append(products, newProduct)
-	c.IndentedJSON(http.StatusCreated, newProduct)
+
+	// Validate input
+	var input UpdateProductInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	DB.Model(&newProduct).Updates(input)
+
+	c.JSON(http.StatusOK, gin.H{"data": newProduct})
 }
 
-func getProductById(id string) (*product, error) {
-	for i, b := range products {
-		if b.ID == id {
-			return &products[i], nil
-		}
-	}
-
-	return nil, errors.New("Product not found")
+func FindProducts(c *gin.Context) {
+	var products []product
+	DB.Find(&products)
+	c.JSON(http.StatusOK, gin.H{"data": products})
 }
 
-func productById(c *gin.Context) {
-	id := c.Param("id")
-	product, err := getProductById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Product not found."})
+func DeleteProduct(c *gin.Context) {
+	// Get model if exist
+	var newProduct product
+	if err := DB.Where("id = ?", c.Param("id")).First(&newProduct).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, product)
+	DB.Delete(&newProduct)
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
-func buyProduct(c *gin.Context) {
-	id, ok := c.GetQuery("id")
+func DeleteAllProducts(c *gin.Context) {
 
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter."})
-		return
-	}
-
-	product, err := getProductById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Product not found."})
-		return
-	}
-
-	if product.Amount <= 0 {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Product not available."})
-		return
-	}
-
-	product.Amount -= 1
-	c.IndentedJSON(http.StatusOK, product)
+	var products []product
+	DB.Delete(&products)
+	c.JSON(http.StatusOK, gin.H{"data": products})
 }
-
-func deleteProduct(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter."})
-		return
-	}
-
-	for i, product := range products {
-		if product.ID == id {
-			products = append(products[:i], products[i+1:]...)
-			c.IndentedJSON(http.StatusOK, product)
-		}
-	}
-}
-
 func main() {
 	router := gin.Default()
-	fmt.Print("Starting the APP")
+	fmt.Print("Starting the APP\n")
+	ConnectDatabase()
+	router.GET("/products", FindProducts)
+	router.POST("/products", CreateProduct)
+	router.PATCH("/products/:id", UpdateProduct)
+	router.DELETE("/products/:id", DeleteProduct)
+	router.DELETE("/products", DeleteAllProducts)
 
-	router.GET("/products", getProducts)
-	router.POST("/products", createProduct)
-	router.GET("/products/:id", productById)
-	router.PATCH("/buy", buyProduct)
-	router.DELETE("/products/delete", deleteProduct)
 	router.Run("localhost:8080")
 }
