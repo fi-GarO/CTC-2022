@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  etcd:
+    image: bitnami/etcd:3.5.1-debian-10-r4
+    container_name: etcd
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+    volumes:
+      - etcd_data:/bitnami/etcd
+    restart: always
+    ports:
+      - "2379:2379"
+  minio:
+    image: bitnami/minio:2020.6.22-debian-10-r10
+    container_name: minio
+    environment:
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - MINIO_DEFAULT_BUCKETS=service-blobs,history
+    volumes:
+      - minio_data:/data
+    restart: always
+    ports:
+      - "9000:9000"
+
+volumes:
+  etcd_data:
+    driver: local
+  minio_data:
+    driver: local
+
+
