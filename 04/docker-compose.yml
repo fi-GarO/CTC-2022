@@ -1,8 +1,25 @@
 version: "3.9"
-services:
-  web:
-    build: .
-    ports:
-      - "8080:8080"
 
+services:
+  app:
+    image: jirituryna/docker-products
+    ports:
+      - 8080:8080
+    working_dir: /app
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: products
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - products-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: products
+
+volumes:
+  products-mysql-data:
 
