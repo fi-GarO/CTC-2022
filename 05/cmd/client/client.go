@@ -32,7 +32,8 @@ func Cmd() *cobra.Command {
 
 	f.StringVarP(&endpoint, "endpoint", "e", "localhost:8080", "endpoint")
 
-	cmd.AddCommand(getCmd(), putCmd())
+	cmd.AddCommand(getCmd(), putCmd(), delCmd())
+
 	return cmd
 }
 
