@@ -44,7 +44,6 @@ func (e *etcd) Put(ctx context.Context, key, value string) error {
 
 func (e *etcd) Delete(ctx context.Context, key string) (string, error) {
 	_, err := e.cl.Delete(ctx, key)
-
 	if err != nil {
 		return "", fmt.Errorf("key %v: %w", key, err)
 	}

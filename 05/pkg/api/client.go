@@ -39,5 +39,5 @@ func (g *grpcClient) Delete(ctx context.Context, key string) (string, error) {
 		return "", err
 	}
 
-	return "Deleted", err
+	return "", err
 }

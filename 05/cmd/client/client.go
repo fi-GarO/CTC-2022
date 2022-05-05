@@ -67,3 +67,20 @@ func putCmd() *cobra.Command {
 		},
 	}
 }
+
+func delCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:  "del key",
+		Args: cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			key := args[0]
+
+			cli := newClient()
+			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+			defer cancel()
+			_, err := cli.Delete(ctx, key)
+			util.ExitOnError(err)
+			fmt.Println("Deleted")
+		},
+	}
+}
