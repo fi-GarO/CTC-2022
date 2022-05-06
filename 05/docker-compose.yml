@@ -10,7 +10,7 @@ services:
       - etcd_data:/bitnami/etcd
     restart: always
   server:
-    image: ondrejsmola/ctcgrpc:main-6616dbd-220428063300
+    image: jirituryna/ctcgrpc:main-b0e4568-220506125928
     container_name: ctcgrpc
     command: [ "server","--etcd=etcd:2379" ]
     ports:

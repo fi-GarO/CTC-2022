@@ -2,7 +2,7 @@ package api
 
 import (
 	"context"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/store"
+	"github.com/fi-GarO/CTC-2022/05/pkg/store"
 )
 
 type Client interface {

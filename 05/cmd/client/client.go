@@ -3,9 +3,9 @@ package client
 import (
 	"context"
 	"fmt"
+	"github.com/fi-GarO/CTC-2022/05/pkg/api"
+	"github.com/fi-GarO/CTC-2022/05/pkg/util"
 	"github.com/spf13/cobra"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/api"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/util"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"time"

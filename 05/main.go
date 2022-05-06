@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/fi-GarO/CTC-2022/05/cmd/client"
+	"github.com/fi-GarO/CTC-2022/05/cmd/server"
+	"github.com/fi-GarO/CTC-2022/05/pkg/util"
 	"github.com/spf13/cobra"
-	"gitlab.com/ondrej.smola/ctcgrpc/cmd/client"
-	"gitlab.com/ondrej.smola/ctcgrpc/cmd/server"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/util"
 )
 
 func main() {

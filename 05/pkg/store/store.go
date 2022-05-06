@@ -3,7 +3,7 @@ package store
 import (
 	"context"
 	"fmt"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg"
+	"github.com/fi-GarO/CTC-2022/05/pkg"
 	v3 "go.etcd.io/etcd/client/v3"
 )
 
