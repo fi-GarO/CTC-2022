@@ -1,10 +1,10 @@
 package server
 
 import (
+	"github.com/fi-GarO/CTC-2022/05/pkg/api"
+	"github.com/fi-GarO/CTC-2022/05/pkg/store"
+	"github.com/fi-GarO/CTC-2022/05/pkg/util"
 	"github.com/spf13/cobra"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/api"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/store"
-	"gitlab.com/ondrej.smola/ctcgrpc/pkg/util"
 	etcd "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc"
 	"net"

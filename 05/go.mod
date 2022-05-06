@@ -1,4 +1,4 @@
-module gitlab.com/ondrej.smola/ctcgrpc
+module github.com/fi-GarO/CTC-2022/05
 
 go 1.18
 
@@ -12,6 +12,7 @@ require (
 require (
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
+	github.com/fi-GarO/CTC-2022 v0.0.0-20220506113607-b0e456887867 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.7 // indirect
