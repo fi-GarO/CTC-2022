@@ -9,7 +9,7 @@ import (
 
 func main() {
 	cmd := &cobra.Command{
-		Use: "ctcgrpc",
+		Use: "05",
 		CompletionOptions: cobra.CompletionOptions{
 			DisableDefaultCmd: true,
 		},

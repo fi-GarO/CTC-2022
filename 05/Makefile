@@ -1,7 +1,7 @@
 
 DATE = 220506134556
 
-PROJECT_NAMESPACE := gitlab.com/ondrej.smola/ctcgrpc
+PROJECT_NAMESPACE := github.com/fi-GarO/CTC-2022/05
 
 GIT_HASH := 6f86688
 PROJECT_BRANCH := main

@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package core;
 
-option go_package = "gitlab.com/ondrej.smola/ctcgrpc/pkg/api";
+option go_package = "github.com/fi-GarO/CTC-2022/05/pkg/api";
 
 
 message GetRequest {

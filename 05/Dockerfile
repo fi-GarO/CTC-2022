@@ -1,9 +1,7 @@
-FROM alpine:3.14.3
+FROM ubuntu:20.04
 
 WORKDIR /opt
 
-RUN apk update && apk add bash
+COPY 05 05
 
-COPY ctcgrpc ctcgrpc
-
-ENTRYPOINT ["./ctcgrpc"]
+ENTRYPOINT ["./05"]
