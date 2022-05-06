@@ -1,7 +1,7 @@
 # Verze A pro úlohu 05
-Dosadil jsem vlastní importy, ale gRPC container mi při startu končí na:
+- Dosadil jsem vlastní importy, ale gRPC container mi při startu končí na:
 **standard_init_linux.go:228: exec user process caused: no such file or directory** 
-Pokoušel jsem o Debug přes úpravy v Dockerfilu i spouštění containeru samostatně, ale na řešení jsem nepřišel.
+- Pokoušel jsem o Debug přes úpravy v Dockerfilu i spouštění containeru samostatně, ale na řešení jsem nepřišel.
 
 
 
