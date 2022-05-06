@@ -1,8 +1,10 @@
-# Verze A pro úlohu 05
-- Dosadil jsem vlastní importy, ale gRPC container mi při startu končí na:
-**standard_init_linux.go:228: exec user process caused: no such file or directory** 
-- Pokoušel jsem o Debug přes úpravy v Dockerfilu i spouštění containeru samostatně, ale na řešení jsem nepřišel.
-
+# Funkční verze úlohy 05
+## Commands
+docker-compose up
+./05 client -e localhost:8080 get a -> správně vrátí **rpc error: code = NotFound desc = not found** (není nic uloženo)
+./05 client -e localhost:8080 put a b -> uloží do klíče "a" hodnotu "b"
+./05 client -e localhost:8080 del a -> smaže klíč "a" včetně jeho uložené hodnoty
+./05 client -e localhost:8080 get a -> správně vrátí **rpc error: code = NotFound desc = not found** (opět není nic uloženo)
 
 
 # Etcd and GRPC
