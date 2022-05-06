@@ -1,15 +1,11 @@
 
-ifdef SystemRoot
-	DATE := $(shell powershell -noprofile '(Get-Date).ToUniversalTime().ToString("yyMMddHHmmss")')
-else
-	DATE := $(shell date -u '+%y%m%d%H%M%S')
-endif
+DATE = 220506134556
 
 PROJECT_NAMESPACE := gitlab.com/ondrej.smola/ctcgrpc
 
-GIT_HASH := $(shell git rev-parse --short HEAD)
-PROJECT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-IMAGE_NAME := ondrejsmola/ctcgrpc:$(PROJECT_BRANCH)-$(GIT_HASH)-$(DATE)
+GIT_HASH := 6f86688
+PROJECT_BRANCH := main
+IMAGE_NAME := jirituryna/ctcgrpc:$(PROJECT_BRANCH)-$(GIT_HASH)-$(DATE)
 
 .PHONY: install-proto-dependencies
 install-proto-dependencies:
