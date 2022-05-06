@@ -1,4 +1,6 @@
 
+# Řešení
+- Přidání Electric cars
 # Go concurrency
 
 ### Assignment
