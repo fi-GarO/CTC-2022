@@ -1,0 +1,7 @@
+FROM ubuntu:20.04
+
+WORKDIR /opt
+
+COPY 05 05
+
+ENTRYPOINT ["./05"]
